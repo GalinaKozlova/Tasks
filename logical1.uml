@@ -1,0 +1,36 @@
+@startuml
+'logical1'
+left to right direction
+skinparam monochrome true
+skinparam handwritten false
+hide class circle
+skinparam shadowing false
+
+class TrainingData {
+    name: str
+    uploaded: datetime
+    tested: datetime
+    k: int
+}
+class "List[Client]"
+class Client {
+    Status: int
+    Seniority: int
+    Home: int
+    Time: int
+    Age: int
+    Marital: int
+    Job: int
+    Expenses: float
+    Income: int
+    Assets: float
+    Debt: float
+    Amount: float
+    Marital: int
+    Price: float
+
+}
+TrainingData *--> "List[Client]" : training >
+TrainingData *--> "List[Client]" : testing >
+"List[Client]" o--> Client
+@enduml
