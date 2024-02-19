@@ -30,7 +30,12 @@ class Client {
     Price: float
 
 }
+class Employee{
+}
 TrainingData *--> "List[Client]" : training >
 TrainingData *--> "List[Client]" : testing >
+Employee *--> TrainingData: entering client data
+TrainingData *--> Employee : decision on loan >
+Employee *--> Client : decision on loan >
 "List[Client]" o--> Client
 @enduml
