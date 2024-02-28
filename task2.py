@@ -71,4 +71,62 @@ def classify(self, classification: str) -> None:
 
 def matches(self) -> bool:
         return self.client_type == self.classification
+
+class Hyperparameter:
+    """Значение гиперпараметра и общее качество классификации."""
+
+    def __init__(self, k: int, training: "TrainingData") -> None:
+        self.k = k
+        self.data: TrainingData = training
+        self.quality: float
+
+    def test(self) -> None:
+        """Выполняет проверку на тестовом наборе данных"""
+        pass_count, fail_count = 0, 0
+        for sample in self.data.testing:
+            sample.classification = self.classify(sample)
+            if sample.matches():
+                pass_count += 1
+            else:
+                fail_count += 1
+        self.quality = pass_count / (pass_count + fail_count)
+
+    def classify(self, client: Client) -> str:
+        """TODO: алгоритм k-NN"""
+        return ""
+
+class TrainingData:
+    """Набор обучающих данных и тестовых данных с методами для загрузки и тестирования образцов."""
+
+    def __init__(self, name: str) -> None:
+        self.name = name
+        self.uploaded: datetime.datetime
+        self.tested: datetime.datetime
+        self.training: list[Client] = []
+        self.testing: list[Client] = []
+        self.tuning: list[Hyperparameter] = []
+
+    def load(self, raw_data_source: Iterable[dict[str, str]]) -> None:
+        """Загружает и разбивает исходные данные"""
+        for n, row in enumerate(raw_data_source):
+            client = Client(
+                status=int(row["status"]),
+                senority=int(row["senority"]),
+                home=int(row["home"]),
+                time=int(row["time"]),
+                age=int(row["age"]),
+                marital=int(row["marital"]),
+                job=int(row["job"]),
+                expenses=float(row["expenses"]),
+                income=int(row["income"]),
+                debt=float(row["debt"]),
+                amount=float(row["amount"]),
+                price=float(row["price"]),
+                client_type=row["client_type"],
+            )
+            if n % 5 == 0:
+                self.testing.append(Client)
+            else:
+                self.training.append(Client)
+        self.uploaded = datetime.datetime.now(tz=datetime.timezone.utc)
    
