@@ -56,7 +56,7 @@ class Client:
             f"price={self.price}"
             f")"
         )
-    
+   
 
 class KnownClient(Client):
     def __init__(
@@ -102,7 +102,7 @@ class KnownClient(Client):
     
     @classmethod
     def from_dict(cls, row: dict[str, str]) -> "KnownClient":
-        if row["status"] not in {"0", "1", "-1"}:  # 0 - дать, 1 - не дать, -1 - ошибка
+        if row["status"] not in {"0", "1", "-1"}:
             raise InvalidClientError(f"invalid status in {row!r}")
         try:
             return cls(
@@ -237,7 +237,8 @@ class ClassifiedClient(Client):
    
 
 class Hyperparameter:
-    def __init__(self, max_depth: int, min_samples_split: int, training: "TrainingData") -> None:
+    def __init__(self, max_depth: int, min_samples_split: int, 
+                 training: "TrainingData") -> None:
         self.max_depth = max_depth
         self.min_samples_split = min_samples_split
         self.data: weakref.ReferenceType["TrainingData"] = weakref.ref(training)
@@ -255,7 +256,8 @@ class Hyperparameter:
         for i in range(len(y_predict)):
             test_data[i].classification = y_predict[i]
 
-    def classify_list(self, clients: list[Union[UnknownClient, TestingKnownClient]]) -> list:
+    def classify_list(self, clients: list[Union[UnknownClient, 
+                                                TestingKnownClient]]) -> list:
         training_data = self.data
         if not training_data:
             raise RuntimeError("No training object")
@@ -263,7 +265,8 @@ class Hyperparameter:
         x_train = TrainingData.get_list_clients(training_data)
         y_train = TrainingData.get_statuses_clients(training_data)
 
-        classifier = DecisionTreeClassifier(max_depth=self.max_depth, min_samples_split=self.min_samples_split)
+        classifier = DecisionTreeClassifier(max_depth=self.max_depth, 
+                                            min_samples_split=self.min_samples_split)
         classifier = classifier.fit(x_train, y_train)
         return classifier.predict(x_predict).tolist()
     
@@ -317,6 +320,7 @@ class TrainingData:
             ]
             for client in clients
         ]
+    
     @staticmethod
     def get_statuses_clients(clients: list[KnownClient]) -> list:
         return [client.status for client in clients]
