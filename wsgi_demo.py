@@ -9,21 +9,23 @@ class Reverseware:
         wrapped_app_response = self.wrapped_app(environ, start_response)
         return [data[::-1] for data in wrapped_app_response]
     
-    def application(environ, start_response):
-        response_body = [
-            f'{key}: {value}' for key, value in sorted(environ.items())
-        ]
-        response_body = '\n'.join(response_body)
 
-        status = '200 OK'
+def application(environ, start_response):
+    response_body = [
+        f'{key}: {value}' for key, value in sorted(environ.items())
+    ]
+    response_body = '\n'.join(response_body)
 
-        response_headers = [
-            ('Content-type', 'text/plain'),
-        ]
+    status = '200 OK'
 
-        start_response(status, response_headers)
+    response_headers = [
+        ('Content-type', 'text/plain'),
+    ]
 
-        return [response_body.encode('utf-8')]
-    
-    server = make_server('localhost', 8000, app=Reverseware(application))
-    server.serve_forever()
+    start_response(status, response_headers)
+
+    return [response_body.encode('utf-8')]
+
+
+server = make_server('localhost', 8000, app=application)
+server.serve_forever()
