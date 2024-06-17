@@ -1,0 +1,3 @@
+Запуск файла для начала
+cd C:\Users\HP\galina 
+Запуск wsgi_demo python wsgi_demo.py http://localhost:8000/home
