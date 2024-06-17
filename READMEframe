@@ -1,3 +1,5 @@
 Запуск файла для начала
 cd C:\Users\HP\galina 
 Запуск wsgi_demo python wsgi_demo.py http://localhost:8000/home
+Это через VSC
+Через cmd Windows waitress-serve -- listen=localhost:8000 app:app, две строчки с serving ПРЕДВАРИТЕЛЬНО СМЕНИВ ДИРЕКТОРИЮ НА C:\Users\HP\galina, где app.py!!!
