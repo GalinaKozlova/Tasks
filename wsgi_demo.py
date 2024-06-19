@@ -1,5 +1,4 @@
 from wsgiref.simple_server import make_server
-import portalocker
 
 
 class Reverseware:
